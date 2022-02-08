@@ -1,0 +1,6 @@
+{
+    "files.associations": {
+        "thread_function.h": "c",
+        "keyboard_thread.h": "c"
+    }
+}
