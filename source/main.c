@@ -10,7 +10,6 @@
 #include "../header/thread_function.h"
 #include "../header/millisecond_sleep.h"
 
-
 int main()
 {
     //<Local variables>
@@ -60,28 +59,28 @@ int main()
     event_flags = malloc(NUM_EVENTS * sizeof(pthread_cond_t*));
 
     //Each event flag is given dynamic memory to a condition variable
-    event_flags[0] = malloc(sizeof(pthread_cond_t));
-    event_flags[1] = malloc(sizeof(pthread_cond_t));
-    event_flags[2] = malloc(sizeof(pthread_cond_t));
-    event_flags[3] = malloc(sizeof(pthread_cond_t));
-    event_flags[4] = malloc(sizeof(pthread_cond_t));
-    event_flags[5] = malloc(sizeof(pthread_cond_t));
-    event_flags[6] = malloc(sizeof(pthread_cond_t));
-    event_flags[7] = malloc(sizeof(pthread_cond_t));
-    event_flags[8] = malloc(sizeof(pthread_cond_t));
-    event_flags[9] = malloc(sizeof(pthread_cond_t));
+    event_flags[0] = malloc(sizeof(pthread_cond_t)); //Event for key 0
+    event_flags[1] = malloc(sizeof(pthread_cond_t)); //Event for key 1
+    event_flags[2] = malloc(sizeof(pthread_cond_t)); //Event for key 2
+    event_flags[3] = malloc(sizeof(pthread_cond_t)); //Event for key 3
+    event_flags[4] = malloc(sizeof(pthread_cond_t)); //Event for key 4
+    event_flags[5] = malloc(sizeof(pthread_cond_t)); //Event for key 5
+    event_flags[6] = malloc(sizeof(pthread_cond_t)); //Event for key 6
+    event_flags[7] = malloc(sizeof(pthread_cond_t)); //Event for key 7
+    event_flags[8] = malloc(sizeof(pthread_cond_t)); //Event for key 8
+    event_flags[9] = malloc(sizeof(pthread_cond_t)); //Event for key 9
 
     //Initialize the condition variables for each event flag in the code
-    pthread_cond_init(event_flags[0], NULL);
-    pthread_cond_init(event_flags[1], NULL);
-    pthread_cond_init(event_flags[2], NULL);
-    pthread_cond_init(event_flags[3], NULL);
-    pthread_cond_init(event_flags[4], NULL);
-    pthread_cond_init(event_flags[5], NULL);
-    pthread_cond_init(event_flags[6], NULL);
-    pthread_cond_init(event_flags[7], NULL);
-    pthread_cond_init(event_flags[8], NULL);
-    pthread_cond_init(event_flags[9], NULL);    
+    pthread_cond_init(event_flags[0], NULL); //Event for key 0
+    pthread_cond_init(event_flags[1], NULL); //Event for key 1 
+    pthread_cond_init(event_flags[2], NULL); //Event for key 2
+    pthread_cond_init(event_flags[3], NULL); //Event for key 3
+    pthread_cond_init(event_flags[4], NULL); //Event for key 4
+    pthread_cond_init(event_flags[5], NULL); //Event for key 5
+    pthread_cond_init(event_flags[6], NULL); //Event for key 6
+    pthread_cond_init(event_flags[7], NULL); //Event for key 7
+    pthread_cond_init(event_flags[8], NULL); //Event for key 8
+    pthread_cond_init(event_flags[9], NULL); //Event for key 9
 
     //Set thread attributes that all threads will utilize
     pthread_attr_init(&thread_attr); 
@@ -124,14 +123,14 @@ int main()
         if(threads[thread_num].task_type == 0)
         {
             //Allocate memory for a struct to pass arguments to the thread
-            pti = malloc(sizeof(struct periodic_task_information));
-            pti->activate_condition = activate_condition;
-            pti->stop_sleep = stop_sleep;
-            pti->loop_iter = threads[thread_num].loop_iter;
-            pti->task_num = threads[thread_num].task_num;
-            pti->period = threads[thread_num].period;
-            pti->thread_mutex = mutex[threads[thread_num].mutex_num];
-            pti->terminate = terminated;
+            pti = malloc(sizeof(struct periodic_task_information)); //Struct to hold function arguments
+            pti->activate_condition = activate_condition; //Activate the thread
+            pti->stop_sleep = stop_sleep; //Stop thread from sleeping
+            pti->loop_iter = threads[thread_num].loop_iter; //Number of iterations for the computations
+            pti->task_num = threads[thread_num].task_num; //The task number for the thread
+            pti->period = threads[thread_num].period; //Period time for the thread
+            pti->thread_mutex = mutex[threads[thread_num].mutex_num]; //Mutex for the thread
+            pti->terminate = terminated; //Termination state check for the thread
 
             //Create the actual thread and begin running it
             //Place the thread in the memory holder to delete later
@@ -141,13 +140,13 @@ int main()
         else
         {
             //Allocate memory for aperiodic thread arguments
-            ati = malloc(sizeof(struct aperiodic_task_information));
-            ati->activate_condition = activate_condition;
-            ati->loop_iter = threads[thread_num].loop_iter;
-            ati->task_num = threads[thread_num].task_num;
-            ati->thread_mutex = mutex[threads[thread_num].mutex_num];
-            ati->terminate = terminated;
-            ati->event_occurred = event_flags[threads[thread_num].event_key];
+            ati = malloc(sizeof(struct aperiodic_task_information)); //Struct to hold function arguments
+            ati->activate_condition = activate_condition; //Activation condition for the thread
+            ati->loop_iter = threads[thread_num].loop_iter; //Loop iterations for the computation of the thread
+            ati->task_num = threads[thread_num].task_num; //The task number of the thread
+            ati->thread_mutex = mutex[threads[thread_num].mutex_num]; //The mutex that the thread will use
+            ati->terminate = terminated; //The termination state check for the thread
+            ati->event_occurred = event_flags[threads[thread_num].event_key]; //Event flags that event will check
 
             //Create the actual thread and begin runnig it
             //Place the thread in memory holder to delet later
@@ -162,8 +161,6 @@ int main()
         thread_ids[num_thread_id++] = thread_id;
         thread_num++;
     }
-
-    printf("Program loaded and ready for activation...\n");
 
     //Create a mutex for the main thread to wait for activation call from user
     pthread_mutex_t main_mutex = PTHREAD_MUTEX_INITIALIZER;
@@ -213,16 +210,16 @@ int main()
     free((void*)terminated);
 
     //Cleanup the condition variables for the event flags
-    pthread_cond_destroy(event_flags[0]);
-    pthread_cond_destroy(event_flags[1]);
-    pthread_cond_destroy(event_flags[2]); 
-    pthread_cond_destroy(event_flags[3]);
-    pthread_cond_destroy(event_flags[4]);
-    pthread_cond_destroy(event_flags[5]);
-    pthread_cond_destroy(event_flags[6]); 
-    pthread_cond_destroy(event_flags[7]); 
-    pthread_cond_destroy(event_flags[8]); 
-    pthread_cond_destroy(event_flags[9]); 
+    pthread_cond_destroy(event_flags[0]); //Remove event flag 0
+    pthread_cond_destroy(event_flags[1]); //Remove event flag 1
+    pthread_cond_destroy(event_flags[2]); //Remove event flag 2
+    pthread_cond_destroy(event_flags[3]); //Remove event flag 3
+    pthread_cond_destroy(event_flags[4]); //Remove event flag 4
+    pthread_cond_destroy(event_flags[5]); //Remove event flag 5
+    pthread_cond_destroy(event_flags[6]); //Remove event flag 6
+    pthread_cond_destroy(event_flags[7]); //Remove event flag 7
+    pthread_cond_destroy(event_flags[8]); //Remove event flag 8
+    pthread_cond_destroy(event_flags[9]); //Remove event flag 9
 
     //Free the double pointer for event flags
     free((void*)event_flags);

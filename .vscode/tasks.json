@@ -12,8 +12,6 @@
                 "../source/main.c",
                 "../source/keyboard_thread.c",
                 "../source/thread_function.c",
-                "../source/time_stamp.c",
-                "../source/driver.c",
                 "../source/millisecond_sleep.c",
                 "-o",
                 "${fileDirname}/${fileBasenameNoExtension}"

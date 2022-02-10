@@ -46,9 +46,6 @@ void* keyboard_reader(void* keyboard_args)
                 //Determine if the key value was any of the number keys
                 if(key_value > 1 && key_value < 13) 
                 {
-                    //WILL NEED TO DELETE LATER...
-                    printf("\nKey %d pressed. Setting event %d flag to true\n", key_number(key_value), key_number(key_value));
-                    
                     //Broadcast to thread that a corresponding event has occurred
                     pthread_cond_broadcast(events[key_number(key_value)]);
                 }
@@ -56,7 +53,6 @@ void* keyboard_reader(void* keyboard_args)
                 //Space bar is used to activate the threads to start executing
                 else if(key_value == SPACE_BAR) //Space bar
                 {
-                    printf("\nSpace key pressed. Activate all threads...\n");
                     pthread_cond_broadcast(activate);
                 }
 
@@ -81,7 +77,6 @@ void open_device_file(int* fd, char* path)
     if(((*fd) = open(path, O_RDONLY)) == -1)
     {
         //If we see this error, this usually means you didn't give the program sudo permission
-        perror("Error in Opening Device File");
         exit(EXIT_FAILURE);
     }   
 }

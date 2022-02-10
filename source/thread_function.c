@@ -32,9 +32,6 @@ void* periodic_task(void* thread_args)
     terminate = pti->terminate;
     activate = pti->activate_condition;
     stop_sleep = pti->stop_sleep;
-
-    //WILL NEED TO DELETE LATER....
-    printf("main_thread: %d\n", gettid());
     
     //Thread sits here and waits for activation signal from the user
     pthread_cond_wait(activate, thread_mutex);
@@ -43,9 +40,6 @@ void* periodic_task(void* thread_args)
     //Do this computation while we are not in terminate state
     while(!(*terminate))
     {
-        //WILL NEED TO DELETE LATER...
-        printf("Computation started from thread: %d\n", gettid());
-        
         //Retrieve the start time of the computation
         struct timespec start_time;
         clock_gettime(CLOCK_REALTIME, &start_time);
@@ -55,11 +49,10 @@ void* periodic_task(void* thread_args)
         pthread_mutex_lock(thread_mutex); //Lock mutex
         computation(loop_iter[1]); //Computation 2 
         pthread_mutex_unlock(thread_mutex); //Unlock mutex
+        
+        
         computation(loop_iter[2]); //Computation 3
        
-        //WILL NEED TO DELETE LATER....
-        printf("Computation ended from thread: %d\n", gettid());
-
         //Retrieve the end time of the computation
         struct timespec stop_time;
         clock_gettime(CLOCK_REALTIME, &stop_time);
@@ -109,7 +102,6 @@ void* aperiodic_task(void* thread_args)
     struct aperiodic_task_information* ati = (struct aperiodic_task_information*) thread_args;
 
     //Create local variables to retrieve these argument values
-    int task_num; 
     int* loop_iter;
     pthread_mutex_t* thread_mutex; 
     volatile bool* terminate;
@@ -117,15 +109,11 @@ void* aperiodic_task(void* thread_args)
     pthread_cond_t* event_occurred;
 
     //Set the local variables to the values of the passed arguments
-    task_num =  ati->task_num;
     event_occurred = ati->event_occurred;
     loop_iter = ati->loop_iter;
     thread_mutex = ati->thread_mutex;
     terminate = ati->terminate;
     activate = ati->activate_condition;
-
-    //WILL NEED TO DELETE LATER...
-    printf("main_thread %d\n", gettid());
 
     //Wait for the activation event to occur before continuing
     pthread_cond_wait(activate, thread_mutex);
@@ -137,18 +125,12 @@ void* aperiodic_task(void* thread_args)
     //Check if we have reached termination state
     while(!(*terminate))
     {
-        //WILL NEED TO DELET LATER...
-        printf("Starting computations in Task %d...\n", task_num);
-
         //Start of computation sequence
         computation(loop_iter[0]);
         pthread_mutex_lock(thread_mutex); //Lock mutex
         computation(loop_iter[1]);
         pthread_mutex_unlock(thread_mutex); //Unlock mutex
         computation(loop_iter[2]);
-
-        //WILL NEED TO DELETE LATER...
-        printf("Finished computations in Task %d...\n", task_num);
 
         //Lock the thread again and wait for an event to occur
         pthread_cond_wait(event_occurred, thread_mutex);
