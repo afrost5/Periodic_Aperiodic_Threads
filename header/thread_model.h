@@ -1,4 +1,4 @@
-//#define DEBUG 
+#define DEBUG 
 
 #if defined(DEBUG) 
 	#define DPRINTF(fmt, args...) printf("DEBUG: %s:%d:%s(): " fmt, \

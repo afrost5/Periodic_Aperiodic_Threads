@@ -4,6 +4,14 @@ Class: CSE 438 Embedded Systems Programming
 Term: Spring 2022
 Assignment: 1
 
+
+!IMPORTANT!
+
+If the program seems to not run, wait a little bit longer to press the SPACE BAR. You MUST wait a few seconds for
+the threads to load before pressing the SPACE BAR to activate the program! Otherise, the program will ignore your
+request and wait for you to press the SPACE BAR again.
+
+
 How to Start Program
 
 1. Unzip directory to a location on a computer
@@ -35,4 +43,9 @@ count down and pause the main thread.
 
 	If you are replacing the thread_model.h file with another version, be sure to place the newer version
 inside the header folder within the project directory. The compiler will look for header files in that folder
-and the thread_model.h file must be in there in order for the program to run properly!
+and the thread_model.h file must be in there in order for the program to run properly! Please make sure to
+recompile the program if you decide to change the thread_model.h file.
+
+	When you are all done, you can run 'make clean' command to clean up the project directory and remove
+the object files and executable if you so choose. Furthermore, if you want to recompile the program, use the
+'make clean' command followed by 'make' to recompile the program.
