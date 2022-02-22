@@ -7,7 +7,7 @@
  	#define DPRINTF(fmt, args...) /* do nothing if not defined*/
 #endif
 
-#define KEYBOARD_EVENT_DEV "/dev/input/event3"	
+#define KEYBOARD_EVENT_DEV "/dev/input/event6"	
 
 
 #define NUM_MUTEXES 3

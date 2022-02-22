@@ -9,7 +9,8 @@ Assignment: 1
 
 If the program seems to not run, wait a little bit longer to press the SPACE BAR. You MUST wait a few seconds for
 the threads to load before pressing the SPACE BAR to activate the program! Otherise, the program will ignore your
-request and wait for you to press the SPACE BAR again.
+request and wait for you to press the SPACE BAR again. ALSO check to make sure that KEYBOARD_EVENT_DEV is set to 
+the proper file.
 
 
 How to Start Program
